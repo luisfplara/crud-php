@@ -93,7 +93,6 @@ Create a new product
 
 ```json
  {
-	"id": 2,
         "nome": "Produto 2",
         "descricao": "Descrição do produto 2",
         "preco": 20.99,
