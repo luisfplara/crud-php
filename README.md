@@ -1,157 +1,148 @@
-Node --version
-    18.17.0
 
-# NODE REST API endpoints 
 
-## Auth
-Used to authenticate users, get access token and refresh token. 
+# PHP REST API endpoints 
+### Requirements
 
-### Signin
+PHP 8.2.12 (cli)
 
-| Enpoint | Headers                    | Description |
-| ------------- | ------------------------------ |------------- |
-| `POST /auth/signin`      | `Content-Type : application/json`    |    	sign in a user |   
+MySQL Server 8.0
 
-#### Request body
-
-```javascript
-{
-    "email" : "user email",
-    "password": "user password"
-}
-```
-#### Response
-```javascript
-{
-    "id": "user unique ID",
-    "name": "user name",
-    "email": "user email",
-    "access_token": "user access token (10m expiration)",
-    "refresh_token": "user refresh token (24h expiration)"
-}
-```
 ---
 
-### Signout
+### Get all products
 
-| Enpoint | Headers                    | Description |
-| ------------- | ------------------------------ |------------- |
-| `POST /auth/signout`      | `Content-Type : application/json`    |    	signout user invalidating the refresh token |   
+| Enpoint | Headers                    |
+| ------------- | ------------------------------ |
+| `GET`  ` /products`  OR `/products?page=X&pageSize=X`      | `Content-Type : application/json`    |    	
+
+Get all products or you can set variables page and pageSize in the query to get the response organized in pages 
 
 #### Request body
 
-```javascript
+```json
 {}
 ```
 #### Response
-```javascript
-{ message: "You've been signed out!" }
+```json
+{
+	"pagina_atual": "30",
+	"total_paginas": 38,
+	"total_registros": "112",
+	"registros_por_pagina": "3",
+	"registros": [
+		{
+			"id": "88",
+			"nome": "Produto 17",
+			"descricao": "Descrição do produto 17",
+			"preco": "267.18",
+			"quantidade": "26"
+		},
+		{
+			"id": "89",
+			"nome": "Produto 18",
+			"descricao": "Descrição do produto 18",
+			"preco": "738.45",
+			"quantidade": "73"
+		},
+		{
+			"id": "90",
+			"nome": "Produto 19",
+			"descricao": "Descrição do produto 19",
+			"preco": "890.72",
+			"quantidade": "89"
+		}
+	]
+}
 ```
 ---
 
-### Signup
+### Get single product
 
-| Enpoint | Headers                    | Description |
-| ------------- | ------------------------------ |------------- |
-| `POST /auth/signup`      | `Content-Type : application/json`    |    	signup a new user |   
+| Enpoint | Headers                    |
+| ------------- | ------------------------------ |
+| `GET`  `/products/{id}`    | Content-Type : application/json    | 
 
-#### Request body
-
-```javascript
-{
-    "name" : "user name",
-    "email" : "user email",
-    "password": "user password"
-}
-```
-#### Response
-```javascript
-{
-	"name": "new user name",
-	"email": "new user email",
-	"password": "new user password hash",
-	"roles": [list of roles],
-	"_id": "new user ID",
-}
-```
----
-
-### Refresh Token
-
-| Enpoint | Headers                    | Description |
-| ------------- | ------------------------------ |------------- |
-| `GET /auth/refreshtoken`      | `Content-Type : application/json`<br/> `Set-Cookie : r_tkn= "refresh token"`   |get a new access token with the refresh token|   
+To get a single product, put the product ID in que query, after the /products/HERE
 
 #### Request body
 
-```javascript
+```json
 {}
 ```
 #### Response
-```javascript
+```json
 {
-    "access_token": "new access token"
+	"id": "100",
+	"nome": "Produto 9",
+	"descricao": "Descrição do produto 9",
+	"preco": "132.70",
+	"quantidade": "13"
 }
 ```
 ---
 
+### Create new product
 
+| Enpoint | Headers                    | 
+| ------------- | ------------------------------ |
+| `POST` `/products`      | Content-Type : application/json   |    	
 
-
-## User
-Used manage users
-
-### Get all users
-
-| Enpoint | Headers                    | Description |
-| ------------- | ------------------------------ |------------- |
-| `GET /user`| `Content-Type : application/json`<br/> `authorization : Bearer "access token"`|get all users|   
+Create a new product 
 
 #### Request body
 
-```javascript
-{}
+```json
+ {
+	"id": 2,
+        "nome": "Produto 2",
+        "descricao": "Descrição do produto 2",
+        "preco": 20.99,
+        "quantidade": 200
+ }
 ```
 #### Response
-```javascript
-[{
-    "_id": "user ID",
-	"name": "user name",
-	"email": "user email",
-	"password": "user password hash",
-	"roles": [list of role.id],
-}....]
-```
----
-
-### Get single user
-
-| Enpoint | Headers                    | Description |
-| ------------- | ------------------------------ |------------- |
-| `get /user/:id`      | `Content-Type : application/json`<br/> `authorization : Bearer "access token"`    |    	get single user information |   
-
-#### Request body
-
-```javascript
-{}
-```
-#### Response
-```javascript
+```json
 {
-    "_id": "user ID",
-	"name": "user name",
-	"email": "user email",
-	"password": "user password hash",
-	"roles": [list of role.id],
+	"id": 142
 }
 ```
 ---
 
-### Delete single user
+### Update one product
 
-| Enpoint | Headers                    | Description |
-| ------------- | ------------------------------ |------------- |
-| `DELETE /user/:id`      | `Content-Type : application/json`<br/> `authorization : Bearer "access token"`|    	delete a user |   
+| Enpoint | Headers                    | 
+| ------------- | ------------------------------ |
+| `PUT` `/products/{id}`      | `Content-Type : application/json`   | 
+
+Used to update one product, the product Id that you want to change needs to be in the URI, send the variables that you want to chenge in the body, if sucess, it will return th Id of the products
+
+#### Request body
+
+```javascript
+{
+	"nome":"teste"
+	"id" : "1233",
+	"nome" : "teste update product",
+	"descricao" : "Descrição update test",
+        "preco" : "20.99",
+        "quantidade" : "200"
+}
+```
+#### Response
+```javascript
+{
+	"id": "133"
+}
+```
+---
+
+### Delete one user
+
+| Enpoint | Headers                    |
+| ------------- | ------------------------------ |
+| `Delete` `/products/{id}`| `Content-Type : application/json`|
+
+delete one product sending a request type DELETE with the product ID in the URI /products/HERE
 
 #### Request body
 
@@ -161,117 +152,7 @@ Used manage users
 #### Response
 ```javascript
 {
-	"acknowledged": "acknowledged boolean",
-	"deletedCount": "deleted count number"
-}
-```
----
-
-
-
-
-
-
-## Role
-Used to manage roles
-
-### Get all roles
-
-| Enpoint | Headers                    | Description |
-| ------------- | ------------------------------ |------------- |
-| `GET /role`| `Content-Type : application/json`<br/> `authorization : Bearer "access token"`|get all roles|   
-
-#### Request body
-
-```javascript
-{}
-```
-#### Response
-```javascript
-[{
-    "_id": "role ID",
-	"name": "role name",
-}....]
-```
----
-
-### Get single role
-
-| Enpoint | Headers                    | Description |
-| ------------- | ------------------------------ |------------- |
-| `GET /role/:id`      | `Content-Type : application/json`<br/> `authorization : Bearer "access token"`    |    	get single user information |   
-
-#### Request body
-
-```javascript
-{}
-```
-#### Response
-```javascript
-{
-    "_id": "role ID",
-	"name": "role name",
-}
-```
----
-
-### Create a new role
-
-| Enpoint | Headers                    | Description |
-| ------------- | ------------------------------ |------------- |
-| `POST /role`      | `Content-Type : application/json`<br/> `authorization : Bearer "access token"`|    	create new role |   
-
-#### Request body
-
-```javascript
-{
-	"name": "role name"
-}
-```
-#### Response
-```javascript
-{
-	"acknowledged": "acknowledged boolean",
-	"deletedCount": "deleted count number"
-}
-```
----
-
-### Add role to user
-
-| Enpoint | Headers                    | Description |
-| ------------- | ------------------------------ |------------- |
-| `POST /role/addroletouser`      | `Content-Type : application/json`<br/> `authorization : Bearer "access token"`|    	add a role to a user |   
-
-#### Request body
-
-```javascript
-{
-	"user_id": "user id",
-	"role":"role name"
-}
-```
-#### Response
-```javascript
-Role added successful
-```
----
-### Delete single role
-
-| Enpoint | Headers                    | Description |
-| ------------- | ------------------------------ |------------- |
-| `DELETE /role/:id`      | `Content-Type : application/json`<br/> `authorization : Bearer "access token"`|    	delete a single role |   
-
-#### Request body
-
-```javascript
-{}
-```
-#### Response
-```javascript
-{
-	"acknowledged": "acknowledged boolean",
-	"deletedCount": "deleted count number"
+	"id": "133"
 }
 ```
 ---
