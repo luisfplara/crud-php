@@ -13,9 +13,9 @@ MySQL Server 8.0
 
 | Enpoint | Headers                    |
 | ------------- | ------------------------------ |
-| `GET`  ` /products`  OR `/products?page=X&pageSize=X`      | `Content-Type : application/json`    |    	
+| `GET`  ` /products`  OR `/products?page=XXX&pageSize=XXXX`      | `Content-Type : application/json`    |    	
 
-Get all products or you can set variables page and pageSize in the query to get the response organized in pages 
+Get all products or set the variables "page" and "pageSize" in the query to get the response organized in pages, the example bellow have this URI /products?page=30&pageSize=3
 
 #### Request body
 
