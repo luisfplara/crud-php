@@ -1,13 +1,15 @@
 <?php
-
+//this file implement the SQL queries to g
 include_once 'config.php';
 
+//get all products
 function getAllProducts($page, $pageSize)
 {
     global $conn;
 
     $start = ($page - 1) * $pageSize;
 
+    //get the products organized in pages or note, depends if the variables $page and $pageSize are setted
     $sql = $pageSize ? "SELECT * FROM produtos LIMIT $start, $pageSize" : "SELECT * FROM produtos";
 
     $result = $conn->query($sql);
@@ -26,11 +28,10 @@ function getAllProducts($page, $pageSize)
     $products_count = $conn->query($sql);
 
     $products_count = $products_count->fetch_assoc();
-    echo ($products_count[0]);
-
 
     return $products;
 }
+//products count to organize the pages
 function getAllProductsCount()
 {
     global $conn;
@@ -42,6 +43,7 @@ function getAllProductsCount()
 
     return $products_count->fetch_assoc();
 }
+//get single product using the ID
 function getProductById($id)
 {
     global $conn;
@@ -51,6 +53,7 @@ function getProductById($id)
 
     return $result->fetch_assoc();
 }
+//create a new product
 function createProduct($nome, $descricao, $preco, $quantidade)
 {
     global $conn;
@@ -61,9 +64,11 @@ function createProduct($nome, $descricao, $preco, $quantidade)
 
     return $conn->insert_id;
 }
+//update one product
 function updateProduct($id, array $changes)
 {
     global $conn;
+    //this part bellow was write to update the variables of the product dynamically, it will update just the variables present in the body.
 
     $sql = "UPDATE produtos SET ";
     for ($i = 1; $i <= count($changes); $i++) {
@@ -79,11 +84,9 @@ function updateProduct($id, array $changes)
 
     $conn->query($sql);
 
-
-
-
     return $id;
 }
+//delete one product
 function deleteProduct($id)
 {
     global $conn;
