@@ -3,10 +3,44 @@
 # PHP REST API endpoints 
 ### Requirements
 
-PHP 8.2.12 (cli)
+[PHP 8.2.12 (cli)](https://www.php.net/downloads) 
 
-MySQL Server 8.0
+[Composer 2.6.5](https://getcomposer.org/download/)
 
+[MySQL Server 8.0](https://dev.mysql.com/downloads/mysql/)
+
+### How to use
+First, it's need to configurate the php.ini file to use the native mysqli function. Uncomment the following lines
+	
+ 	extension_dir = "ext"
+  	extension=mysqli
+	
+It's need to configure the MySql conenction in the file api/v1/config.php, the standard configuration is:
+
+	$servername = "localhost:3306";
+	$username = "root";
+	$password = "abcd1234";
+	$dbname = "loja";
+
+You can use the file DB.sql in the root directory to create the database.
+
+To install the composer
+
+After clone this repo, you need to execute the following command to install the dependencies:
+
+	composer install
+ 
+To run the API, execute the command bellow, you can use any port that you want.
+
+ 	php -S localhost:8080 
+
+To execute the PHPunit tests, you need to execute the command:
+
+	./vendor/bin/phpunit  tests
+
+it will run the tests located in the /test directory, make sure that you selected the addres and port in the following line in the header of the ProductsTest.php function:
+
+	$this->client = new Client(['base_uri' => 'http://localhost:8080']);
 ---
 
 ### Get all products
@@ -93,7 +127,6 @@ Create a new product
 
 ```json
  {
-	"id": 2,
         "nome": "Produto 2",
         "descricao": "Descrição do produto 2",
         "preco": 20.99,
@@ -118,7 +151,7 @@ Used to update one product, the product Id that you want to change needs to be i
 
 #### Request body
 
-```javascript
+```json
 {
 	"nome":"teste"
 	"id" : "1233",
@@ -129,7 +162,7 @@ Used to update one product, the product Id that you want to change needs to be i
 }
 ```
 #### Response
-```javascript
+```json
 {
 	"id": "133"
 }
@@ -146,11 +179,11 @@ delete one product sending a request type DELETE with the product ID in the URI 
 
 #### Request body
 
-```javascript
+```json
 {}
 ```
 #### Response
-```javascript
+```json
 {
 	"id": "133"
 }
