@@ -117,7 +117,7 @@ Used to update one product, the product Id that you want to change needs to be i
 
 #### Request body
 
-```javascript
+```json
 {
 	"nome":"teste"
 	"id" : "1233",
@@ -128,7 +128,7 @@ Used to update one product, the product Id that you want to change needs to be i
 }
 ```
 #### Response
-```javascript
+```json
 {
 	"id": "133"
 }
@@ -145,11 +145,11 @@ delete one product sending a request type DELETE with the product ID in the URI 
 
 #### Request body
 
-```javascript
+```json
 {}
 ```
 #### Response
-```javascript
+```json
 {
 	"id": "133"
 }
